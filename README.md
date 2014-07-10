@@ -1,6 +1,23 @@
+# logstash-forwarder
+
+build and install the logstash-forwarder from source in a Vagrant VM
+
+Todo: upload a deb to repo
+Create a docker container
+
+## Installation
+
+Install VagrantUp
+clone this repo
+run `vagrant up`
+
+to access the new VM 
+run `vagrant ssh'
+
+
+
+## References
 https://github.com/elasticsearch/logstash-forwarder
-
-
 
 # Troubleshooting
 
