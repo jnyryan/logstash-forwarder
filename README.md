@@ -1,21 +1,56 @@
 # logstash-forwarder
 
+A lightweight service to push logs to a Logstash indexer.
+
 This is a VagrantUp virtual machine that builds and installs the logstash-forwarder from [source](https://github.com/elasticsearch/logstash-forwarder/releases)
 
-Todo: upload a deb to repo
+Also include instructions to create and push the package as an Ubuntu Personal Package Archive (PPA)
+
+TODO
 Create a docker container
 
-## Installation
+## Install logstash-forwarder from repository
+
+``` bash
+sudo add-apt-repository ppa:jnyryan/logstash-forwarder 
+sudo apt-get update
+sudo apt-get install logstash-forwarder
+```
+
+## Build the Package and Publish it 
+
+### This is done on a virtual machine
 
 Install VagrantUp
-clone this repo
-run `vagrant up`
 
-to access the new VM 
-run `vagrant ssh'
+``` bash
+git clone https://github.com/jnyryan/logstash-forwarder.git
+cd logstash-forwarder
+vagrant up
+vagrant ssh
+```
 
+### Build Package
 
-# Package a PPA
+``` bash
+sudo apt-get install -y golang
+sudo apt-get install -y ruby1.9.1-dev
+sudo gem install fpm
+
+git clone git://github.com/elasticsearch/logstash-forwarder.git
+cd logstash-forwarder
+go build
+make deb
+```
+
+### Install Package
+
+``` bash
+sudo dpkg -i logstash-forwarder_0.3.1_amd64.deb
+
+```
+
+### Package a PPA
 
 Create a Launchpad Account. (https://login.launchpad.net/)
 Activate a PPA. (https://launchpad.net/people/+me/)
@@ -30,7 +65,7 @@ http://packaging.ubuntu.com/html/packaging-new-software.html
 ## References
 https://github.com/elasticsearch/logstash-forwarder
 
-# Troubleshooting
+##Troubleshooting
 
 Issue
 Failed to tls handshake with 127.0.0.1 x509: certificate is valid for , not localhost
