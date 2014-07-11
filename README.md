@@ -21,7 +21,7 @@ sudo apt-get install logstash-forwarder
 
 ### This is done on a virtual machine
 
-Install VagrantUp
+Install [VagrantUp](http://www.vagrantup.com/)
 
 ``` bash
 git clone https://github.com/jnyryan/logstash-forwarder.git
