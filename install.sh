@@ -6,6 +6,7 @@
 apt-get update
 apt-get install -y make curl git 
 
+
 #####################
 # Install docker
 sudo apt-get install -y docker.io
@@ -15,7 +16,7 @@ sudo sed -i '$acomplete -F _docker docker' /etc/bash_completion.d/docker.io
 #####################
 # Build and install logstash-forwarder 
 sudo apt-get install -y golang
-sudo apt-get install ruby1.9.1-dev
+sudo apt-get install -y ruby1.9.1-dev
 sudo gem install fpm
 
 git clone git://github.com/elasticsearch/logstash-forwarder.git
@@ -29,6 +30,39 @@ sudo dpkg -i logstash-forwarder_0.3.1_amd64.deb
 cp /vagrant/etc/pki/* /etc/pki
 cp /vagrant/etc/logstash-forwarder.conf /opt/logstash-forwarder/logstash-forwarder.conf
 logstash-forwarder -config /opt/logstash-forwarder/logstash-forwarder.conf
+
+####################
+# Build & Package Tools
+sudo apt-get install -y packaging-dev
+ssh-keygen -t rsa
+
+exit 
+
+gpg --import < C888BC06.asc
+
+pbuilder-dist trusty create
+
+bzr whoami "John Ryan <jnyryan@gmail.com>"
+bzr launchpad-login jnyryan
+
+echo "" >> ~/.bashrc
+echo export DEBFULLNAME="John Ryan" >> ~/.bashrc
+echo export DEBEMAIL="jnyryan@gmail.com" >> ~/.bashrc
+source .bashrc
+
+tar -cvzf logstash-forwarder_0.3.1.tar.gz logstash-forwarder
+bzr dh-make logstash-forwarder 0.3.1 logstash-forwarder-0.3.1.tar.gz
+cd logstash-forwarder
+bzr commit -m "Initial commit of Debian packaging."
+bzr builddeb -- -us -uc
+# to rebuild
+bzr builddeb -- -nc -us -uc
+bzr builddeb -S
+cd ../build-area
+dput ppa:jnyryan/logstash-forwarder logstash-forwarder_0.3.1-1_source.changes
+
+
+
 
 # http://evanhazlett.com/2013/08/logstash-and-kibana-via-docker/
 #docker run -d --name ls1 -v /var/log:/var/log -p 50514:514 -p 59200:9200 -p 59292:9292 -p 59300:9300 arcus/logstash
