@@ -6,10 +6,6 @@ This is a VagrantUp virtual machine that builds and installs the logstash-forwar
 
 Also include instructions to create and push the package as an Ubuntu Personal Package Archive (PPA)
 
-TODO
-
-  Create a docker container
-
 ## Install logstash-forwarder from repository
 
 ``` bash
@@ -22,6 +18,7 @@ sudo apt-get install logstash-forwarder
 
 ### This is done on a virtual machine
 
+Install [VirtualBox](https://www.virtualbox.org/)
 Install [VagrantUp](http://www.vagrantup.com/)
 
 ``` bash
